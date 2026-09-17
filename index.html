@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>EIDENDARK WEB | AI Services & Training</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="EIDENDARK WEB provides professional AI training, data annotation, and evaluation services." />
+    <style>
+         :root {
+            --bg: #0b0f19;
+            --card-bg: #111827;
+            --text: #e5e7eb;
+            --muted: #9ca3af;
+            --accent: #22d3ee;
+            --accent-2: #60a5fa;
+            --success: #34d399;
+            --border: #1f2937;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: linear-gradient(180deg, #0b0f19 0%, #0f172a 100%);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .matrix-video,
+        .matrix-rain,
+        .matrix-overlay {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+        }
+        
+        .matrix-video {
+            height: 100%;
+            object-fit: cover;
+            width: 100%;
+            z-index: 0;
+        }
+        
+        .matrix-rain {
+            height: 100%;
+            opacity: 0.72;
+            width: 100%;
+            z-index: 1;
+        }
+        
+        .matrix-overlay {
+            background: rgba(4, 10, 12, 0.38);
+            z-index: 2;
+        }
+        
+        header,
+        main,
+        footer {
+            position: relative;
+            z-index: 3;
+        }
+        
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        /* Header */
+        
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: rgba(11, 15, 25, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 0;
+        }
+        
+        .logo {
+            font-weight: 800;
+            font-size: 1.25rem;
+            letter-spacing: 0.3px;
+            color: #fff;
+        }
+        
+        .logo span {
+            color: var(--accent);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+        
+        .nav-links a:hover {
+            color: #fff;
+        }
+        
+        .cta-btn {
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            color: #0b0f19;
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.15s ease, box-shadow 0.2s ease;
+        }
+        
+        .cta-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 25px rgba(34, 211, 238, 0.25);
+        }
+        /* Hero */
+        
+        .hero {
+            padding: 70px 0 40px;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: clamp(1.8rem, 4vw, 2.6rem);
+            line-height: 1.15;
+            margin-bottom: 14px;
+            background: linear-gradient(90deg, #fff, #c7f9ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .hero p {
+            color: var(--muted);
+            max-width: 700px;
+            margin: 0 auto 26px;
+            font-size: 1.05rem;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn-outline {
+            border: 1px solid var(--border);
+            color: #fff;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-weight: 600;
+            background: transparent;
+            cursor: pointer;
+        }
+        
+        .btn-outline:hover {
+            border-color: #334155;
+            background: #0f172a;
+        }
+        /* Services */
+        
+        .section-title {
+            text-align: center;
+            font-size: 1.6rem;
+            margin: 60px 0 20px;
+            color: #fff;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 18px;
+            margin-bottom: 40px;
+        }
+        
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: transform 0.15s ease, border-color 0.2s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            border-color: #334155;
+        }
+        
+        .card h3 {
+            font-size: 1.1rem;
+            color: #fff;
+        }
+        
+        .card p {
+            color: var(--muted);
+            font-size: 0.95rem;
+            flex: 1;
+        }
+        
+        .price-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 6px;
+        }
+        
+        .price {
+            font-weight: 800;
+            color: #fff;
+            font-size: 1.05rem;
+        }
+        
+        .order-btn {
+            background: #7dd3fc;
+            border: 1px solid #38bdf8;
+            color: #082f49;
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.2s ease, border-color 0.2s ease;
+        }
+        
+        .order-btn:hover {
+            background: #38bdf8;
+            border-color: #7dd3fc;
+        }
+        /* Training section */
+        
+        .training {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 18px;
+            margin-bottom: 40px;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+            background: rgba(34, 211, 238, 0.12);
+            color: var(--accent);
+            border: 1px solid rgba(34, 211, 238, 0.25);
+        }
+        
+        .badge.green {
+            background: rgba(52, 211, 153, 0.12);
+            color: var(--success);
+            border-color: rgba(52, 211, 153, 0.25);
+        }
+        /* Contact / footer */
+        
+        .contact {
+            background: #0f172a;
+            border-top: 1px solid var(--border);
+            padding: 40px 0 60px;
+            margin-top: 40px;
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        
+        .contact h3 {
+            color: #fff;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+        
+        .contact p,
+        .contact li {
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+        
+        .contact ul {
+            list-style: none;
+            padding-left: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        
+        footer {
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.85rem;
+            padding: 20px 0 40px;
+        }
+        /* Small helper */
+        
+        .note {
+            font-size: 0.85rem;
+            color: var(--muted);
+            text-align: center;
+            max-width: 700px;
+            margin: 10px auto 0;
+        }
+        
+        @media (max-width: 680px) {
+            .container {
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+            .nav {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 12px;
+            }
+            .nav-links {
+                flex-wrap: wrap;
+                gap: 12px 16px;
+            }
+            .nav-links .cta-btn {
+                padding: 8px 12px;
+            }
+            .hero {
+                padding-top: 44px;
+            }
+            .hero p {
+                font-size: 0.98rem;
+            }
+            .section-title {
+                font-size: 1.4rem;
+                margin-top: 44px;
+            }
+            .services-grid,
+            .training {
+                grid-template-columns: minmax(0, 1fr);
+            }
+            .price-row {
+                align-items: flex-start;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <video class="matrix-video" autoplay muted loop playsinline poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='900' viewBox='0 0 1600 900'%3E%3Crect width='1600' height='900' fill='%23040a0c'/%3E%3C/svg%3E" aria-hidden="true">
+        <source src="https://cdn.coverr.co/videos/coverr-digital-rain-1573/1080p.mp4" type="video/mp4" />
+    </video>
+    <canvas class="matrix-rain" id="matrix-rain" aria-hidden="true"></canvas>
+    <div class="matrix-overlay" aria-hidden="true"></div>
+
+    <header>
+        <div class="container nav">
+            <div class="logo">EIDEN<span>DARK WEB</span></div>
+            <nav class="nav-links">
+                <a href="#services">Services</a>
+                <a href="#training">Training</a>
+                <a href="contact.html">Contact</a>
+                <a class="cta-btn" href="contact.html">Get in touch</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <h1>Professional AI Training & Data Services</h1>
+            <p>
+                We provide ethical, high‑quality AI training, data annotation, and evaluation services for individuals and teams. Order packages or book sessions directly via email.
+            </p>
+            <div class="hero-buttons">
+                <a class="cta-btn" href="#services">Browse services</a>
+                <a class="btn-outline" href="#training">AI training</a>
+            </div>
+            <p class="note">
+                All services are for legitimate, compliant use only. We do not offer or support any illegal or fraudulent activities.
+            </p>
+        </section>
+
+        <h2 id="services" class="section-title">Services</h2>
+        <div class="services-grid">
+            <!-- Service 1 -->
+            <div class="card">
+                <span class="badge">Popular</span>
+                <h3>AI Evaluation & Writing Support</h3>
+                <p>
+                    Human‑in‑the‑loop evaluation, prompt testing, and writing‑related tasks to improve AI outputs and workflows.
+                </p>
+                <div class="price-row">
+                    <div class="price">From $50</div>
+                    <button class="order-btn" data-service="AI Evaluation & Writing Support" data-price="From $50">Order now</button>
+                </div>
+            </div>
+
+            <!-- Service 2 -->
+            <div class="card">
+                <span class="badge">Data</span>
+                <h3>Data Collection & Annotation</h3>
+                <p>
+                    Structured data collection, labeling, and annotation for text, images, and other modalities to train and evaluate models.
+                </p>
+                <div class="price-row">
+                    <div class="price">From $60</div>
+                    <button class="order-btn" data-service="Data Collection & Annotation" data-price="From $60">Order now</button>
+                </div>
+            </div>
+
+            <!-- Service 3 -->
+            <div class="card">
+                <span class="badge">Search & AI</span>
+                <h3>Search, Data & AI Projects</h3>
+                <p>
+                    End‑to‑end support for search relevance, data quality, and AI evaluation projects tailored to your use case.
+                </p>
+                <div class="price-row">
+                    <div class="price">Custom quote</div>
+                    <button class="order-btn" data-service="Search, Data & AI Projects" data-price="Custom quote">Order now</button>
+                </div>
+            </div>
+
+            <!-- Service 4 -->
+            <div class="card">
+                <span class="badge">Language</span>
+                <h3>Language & Localization Data</h3>
+                <p>
+                    Multilingual data collection, translation QA, and localization tasks to improve global AI performance.
+                </p>
+                <div class="price-row">
+                    <div class="price">From $70</div>
+                    <button class="order-btn" data-service="Language & Localization Data" data-price="From $70">Order now</button>
+                </div>
+            </div>
+
+            <!-- Service 5 -->
+            <div class="card">
+                <span class="badge">Microtasks</span>
+                <h3>Microtasks & Data Work</h3>
+                <p>
+                    Scalable microtask workflows for data cleaning, categorization, and small but critical AI pipeline steps.
+                </p>
+                <div class="price-row">
+                    <div class="price">From $40</div>
+                    <button class="order-btn" data-service="Microtasks & Data Work" data-price="From $40">Order now</button>
+                </div>
+            </div>
+
+            <!-- Service 6 -->
+            <div class="card">
+                <span class="badge">Testing</span>
+                <h3>Software & App Testing</h3>
+                <p>
+                    Functional, usability, and exploratory testing for web and mobile applications with clear, actionable reports.
+                </p>
+                <div class="price-row">
+                    <div class="price">From $80</div>
+                    <button class="order-btn" data-service="Software & App Testing" data-price="From $80">Order now</button>
+                </div>
+            </div>
+
+            <!-- Service 7 -->
+            <div class="card">
+                <span class="badge green">Career</span>
+                <h3>Resume Writing for Job Applications</h3>
+                <p>
+                    Professional resume preparation tailored to your experience and target role.
+                </p>
+                <div class="price-row">
+                    <div class="price">$20 USD</div>
+                    <button class="order-btn" data-service="Resume Writing for Job Applications" data-price="$20 USD">Order now</button>
+                </div>
+            </div>
+
+            <!-- Service 8 -->
+            <div class="card">
+                <span class="badge green">Education</span>
+                <h3>FAFSA Application Assistance</h3>
+                <p>
+                    Guidance with completing your FAFSA application accurately using your own information.
+                </p>
+                <div class="price-row">
+                    <div class="price">$50 USD</div>
+                    <button class="order-btn" data-service="FAFSA Application Assistance" data-price="$50 USD">Order now</button>
+                </div>
+            </div>
+        </div>
+
+        <h2 id="accounts" class="section-title">Accounts &amp; Tasks</h2>
+        <div class="services-grid">
+            <div class="card">
+                <span class="badge green">Verified</span>
+                <h3>Handshake Account</h3>
+                <p>
+                    Verified Handshake account with tasks included.
+                </p>
+                <div class="price-row">
+                    <div class="price">$200 USD</div>
+                    <button class="order-btn" data-service="Handshake Account with Tasks" data-price="$200 USD">Order now</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <span class="badge">Account</span>
+                <h3>Outlier Account</h3>
+                <p>
+                    Outlier account available for task-based work.
+                </p>
+                <div class="price-row">
+                    <div class="price">$230 USD</div>
+                    <button class="order-btn" data-service="Outlier Account" data-price="$230 USD">Order now</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <span class="badge">AI Evaluation</span>
+                <h3>DataAnnotation Account</h3>
+                <p>
+                    AI evaluation and writing-related tasks.
+                </p>
+                <div class="price-row">
+                    <div class="price">$100 USD</div>
+                    <button class="order-btn" data-service="DataAnnotation Account" data-price="$100 USD">Order now</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <span class="badge">AI Data</span>
+                <h3>CrowdGen by Appen Account</h3>
+                <p>
+                    AI data collection, annotation, and evaluation.
+                </p>
+                <div class="price-row">
+                    <div class="price">$100 USD</div>
+                    <button class="order-btn" data-service="CrowdGen by Appen Account" data-price="$100 USD">Order now</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <span class="badge">Search &amp; AI</span>
+                <h3>TELUS Digital AI Account</h3>
+                <p>
+                    Search, data, and AI evaluation projects.
+                </p>
+                <div class="price-row">
+                    <div class="price">$100 USD</div>
+                    <button class="order-btn" data-service="TELUS Digital AI Account" data-price="$100 USD">Order now</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <span class="badge">Language</span>
+                <h3>OneForma Account</h3>
+                <p>
+                    Language, data collection, and AI projects.
+                </p>
+                <div class="price-row">
+                    <div class="price">$100 USD</div>
+                    <button class="order-btn" data-service="OneForma Account" data-price="$100 USD">Order now</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <span class="badge">AI Data</span>
+                <h3>TransPerfect DataForce Account</h3>
+                <p>
+                    AI data collection and annotation.
+                </p>
+                <div class="price-row">
+                    <div class="price">$100 USD</div>
+                    <button class="order-btn" data-service="TransPerfect DataForce Account" data-price="$100 USD">Order now</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <span class="badge">Microtasks</span>
+                <h3>Clickworker Account</h3>
+                <p>
+                    Microtasks and data-related work.
+                </p>
+                <div class="price-row">
+                    <div class="price">$100 USD</div>
+                    <button class="order-btn" data-service="Clickworker Account" data-price="$100 USD">Order now</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <span class="badge">Data Annotation</span>
+                <h3>Toloka Account</h3>
+                <p>
+                    Data annotation and evaluation tasks.
+                </p>
+                <div class="price-row">
+                    <div class="price">$100 USD</div>
+                    <button class="order-btn" data-service="Toloka Account" data-price="$100 USD">Order now</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <span class="badge">Testing</span>
+                <h3>Test IO Account</h3>
+                <p>
+                    Software and app testing work.
+                </p>
+                <div class="price-row">
+                    <div class="price">$100 USD</div>
+                    <button class="order-btn" data-service="Test IO Account" data-price="$100 USD">Order now</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <span class="badge">Language</span>
+                <h3>RWS Account</h3>
+                <p>
+                    Language and AI data-related projects.
+                </p>
+                <div class="price-row">
+                    <div class="price">$100 USD</div>
+                    <button class="order-btn" data-service="RWS Account" data-price="$100 USD">Order now</button>
+                </div>
+            </div>
+        </div>
+
+        <h2 id="training" class="section-title">AI Training Services</h2>
+        <div class="training">
+            <div class="card">
+                <span class="badge green">Online</span>
+                <h3>Online AI Training</h3>
+                <p>
+                    Live, remote training sessions on AI fundamentals, prompt engineering, evaluation, and responsible AI practices.
+                </p>
+                <div class="price-row">
+                    <div class="price">$50 USD</div>
+                    <button class="order-btn" data-service="Online AI Training" data-price="$50 USD">Book online</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <span class="badge green">In‑Person</span>
+                <h3>In‑Person AI Training</h3>
+                <p>
+                    On‑site workshops and hands‑on training for teams, covering practical AI workflows and evaluation techniques.
+                </p>
+                <div class="price-row">
+                    <div class="price">$100 USD</div>
+                    <button class="order-btn" data-service="In-Person AI Training" data-price="$100 USD">Book in-person</button>
+                </div>
+            </div>
+        </div>
+
+        <section class="contact">
+            <div class="container" style="text-align:center;">
+                <h3>Have a question?</h3>
+                <p class="note">Send us the details of your project or inquiry.</p>
+                <a class="cta-btn" href="contact.html" style="display:inline-block; margin-top:14px;">Contact us</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Contact: <a href="mailto:carlmaxeiden@gmail.com">carlmaxeiden@gmail.com</a> | <a href="tel:+13348421377">+1 (334) 842-1377</a></p>
+            <p>© <span id="year"></span> EIDENDARK WEB. All rights reserved.</p>
+            <p style="margin-top:6px;">
+                We provide lawful, ethical AI and data services only.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        const matrixVideo = document.querySelector('.matrix-video');
+        const matrixCanvas = document.getElementById('matrix-rain');
+        const matrixContext = matrixCanvas.getContext('2d');
+        const matrixCharacters = 'アカサタナハマヤラワ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        let matrixColumns;
+        let matrixDrops;
+
+        matrixVideo.playbackRate = 0.35;
+
+        function resizeMatrix() {
+            const scale = window.devicePixelRatio || 1;
+            matrixCanvas.width = window.innerWidth * scale;
+            matrixCanvas.height = window.innerHeight * scale;
+            matrixCanvas.style.width = `${window.innerWidth}px`;
+            matrixCanvas.style.height = `${window.innerHeight}px`;
+            matrixContext.setTransform(scale, 0, 0, scale, 0, 0);
+            matrixColumns = Math.ceil(window.innerWidth / 18);
+            matrixDrops = Array.from({
+                length: matrixColumns
+            }, () => Math.random() * -40);
+        }
+
+        function drawMatrix() {
+            matrixContext.fillStyle = 'rgba(0, 8, 4, 0.12)';
+            matrixContext.fillRect(0, 0, window.innerWidth, window.innerHeight);
+            matrixContext.fillStyle = '#36f27b';
+            matrixContext.font = '14px monospace';
+
+            matrixDrops.forEach((drop, index) => {
+                const character = matrixCharacters[Math.floor(Math.random() * matrixCharacters.length)];
+                matrixContext.fillText(character, index * 18, drop * 18);
+                matrixDrops[index] = drop * 18 > window.innerHeight && Math.random() > 0.975 ? 0 : drop + 0.22;
+            });
+            window.requestAnimationFrame(drawMatrix);
+        }
+
+        resizeMatrix();
+        window.addEventListener('resize', resizeMatrix);
+        drawMatrix();
+
+        // Set current year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Configure your email here
+        const ORDER_EMAIL = 'carlmaxeiden@gmail.com';
+
+        // Attach click handlers to all order buttons
+        document.querySelectorAll('.order-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const service = btn.getAttribute('data-service') || 'Service inquiry';
+                const price = btn.getAttribute('data-price') || 'To be confirmed';
+
+                const subject = `Order: ${service}`;
+                const bodyLines = [
+                    `Hello,`,
+                    ``,
+                    `I would like to order / book the following:`,
+                    `Service: ${service}`,
+                    `Price: ${price}`,
+                    ``,
+                    `Please let me know the next steps, payment options, and timelines.`,
+                    ``,
+                    `Best regards,`,
+                    `[Your name]`,
+                    `[Your organization (optional)]`,
+                    `[Your contact details]`
+                ].join('\n');
+
+                const mailtoLink =
+                    `mailto:${encodeURIComponent(ORDER_EMAIL)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines)}`;
+
+                window.location.href = mailtoLink;
+            });
+        });
+    </script>
+</body>
+
+</html>
